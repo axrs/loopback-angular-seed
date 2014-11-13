@@ -1,0 +1,61 @@
+{
+  "name": "loopback-angular-seed",
+  "version": "0.0.0",
+  "description": "LoopBack AngularJS project seed with Semantic UI",
+  "author": "Alexander Scott <xander@cadcoder.com>",
+  "contributors": [
+    {
+      "name": "Alexander Scott",
+      "email": "xander@cadcoder.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejitsu/browsenpm.org"
+  },
+  "keywords": [
+    "nodejitsu",
+    "example",
+    "browsenpm"
+  ],
+  "main": "server/server.js",
+  "scripts": {
+    "pretest": "jshint ."
+  },
+  "dependencies": {
+    "compression": "^1.0.3",
+    "errorhandler": "^1.1.1",
+    "loopback": "^2.0.0",
+    "loopback-boot": "^2.0.0",
+    "loopback-datasource-juggler": "^2.7.0",
+    "serve-favicon": "^2.0.1"
+  },
+  "optionalDependencies": {
+    "loopback-explorer": "^1.1.0"
+  },
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "event-stream": "^3.1.7",
+    "gulp": "^3.8.10",
+    "gulp-angular-filesort": "^1.0.4",
+    "gulp-clean": "^0.3.1",
+    "gulp-concat": "^2.4.1",
+    "gulp-debug": "^1.0.1",
+    "gulp-inject": "^1.0.2",
+    "gulp-jshint": "^1.9.0",
+    "gulp-karma": "0.0.4",
+    "gulp-ng-html2js": "^0.1.8",
+    "gulp-order": "^1.1.1",
+    "gulp-preprocess": "^1.1.1",
+    "gulp-run-sequence": "^0.3.2",
+    "gulp-util": "^3.0.1",
+    "jshint-stylish": "^1.0.0",
+    "karma": "^0.12.24",
+    "karma-chrome-launcher": "^0.1.5",
+    "karma-jasmine": "^0.2.3",
+    "karma-jasmine-html-reporter": "^0.1.5",
+    "merge-stream": "^0.1.6",
+    "streamqueue": "^0.1.1"
+  }
+}
