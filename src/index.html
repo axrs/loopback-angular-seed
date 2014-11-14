@@ -4,17 +4,27 @@
   <title ng-bind="pageTitle"></title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- inject:css -->
+  <!-- vendor:css -->
   <!-- endinject -->
 
-  <!-- inject:js -->
+  <!-- app:css -->
+  <!-- endinject -->
+
+  <!-- vendor:js -->
+  <!-- endinject -->
+
+  <!-- app:js -->
   <!-- endinject -->
 
   <!-- templates:js -->
   <!-- endinject -->
 </head>
 <body>
-
+<div class="ui fixed transparent inverted main menu">
+  <a class="active item">
+    <i class="home icon"></i> Home
+  </a>
+</div>
 <div class="container" ui-view="main"></div>
 
 </body>

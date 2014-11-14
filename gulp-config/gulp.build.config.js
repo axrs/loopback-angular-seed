@@ -28,6 +28,11 @@ module.exports = {
     unit_tests: ['src/**/*.spec.js'],
 
     /**
+     * App component styles and overrides
+     */
+    styles: ['src/**/*.less'],
+
+    /**
      * App specific reusable HTML partial views and templates and associated `build/` output file
      */
     templates: ['src/app/**/*.tpl.html'],

@@ -12,7 +12,8 @@ var gulp = require('gulp'),
   concat = require('gulp-concat'),
   order = require('gulp-order'),
   debug = require('gulp-debug'),
-  util = require('gulp-util');
+  util = require('gulp-util'),
+  less = require('gulp-less');
 
 
 /**
@@ -109,7 +110,7 @@ gulp.task('build-copy-app-assets', function () {
  * Copies any vendor font dependencies directly into the `config.build_dir`/fonts directory
  */
 gulp.task('build-copy-vendor-fonts', function () {
-  return gulp.copyFlat(config.vendor.fonts, config.build_dir + "/" + config.font_sub_dir);
+  return gulp.copy(config.vendor.fonts, config.build_dir /* + "/" + config.font_sub_dir*/);
 });
 
 /**
@@ -131,20 +132,33 @@ gulp.task('build-common-templates', function () {
 });
 
 /**
+ * Builds the LESS file `config.app.less_file` for testing
+ */
+gulp.task('build-less', function () {
+  gulp.src([config.app.less_file].concat(config.app.styles))
+    .pipe(less())
+    .pipe(gulp.dest(config.build_dir));
+});
+
+/**
  * Injects the app script and style dependencies into a built index `config.app.index_file`
  */
 gulp.task('build-inject-index', function () {
-  var source = [].concat(
+
+  var vendorFiles = [].concat(
     config.vendor.styles,
-    config.vendor.scripts,
-    config.app.scripts
+    config.vendor.scripts
   );
 
+  var scripts = [].concat(config.app.scripts);
   var templates = [config.app.templates_build, config.app.common_templates_build];
+  var styles = ['main.css', '**/*.css', '!vendor/**/*.css'];
 
   return gulp.src(config.app.index_file)
+    .pipe(inject(gulp.src(vendorFiles, {read: false}), {name: 'vendor', addRootSlash: false}))
+    .pipe(inject(gulp.src(scripts, {read: false}), {name: 'app', addRootSlash: false}))
     .pipe(inject(gulp.src(templates, {read: false, cwd: config.build_dir}), {name: 'templates', addRootSlash: false}))
-    .pipe(inject(gulp.src(source, {read: false}), {addRootSlash: false}))
+    .pipe(inject(gulp.src(styles, {read: false, cwd: config.build_dir}), {name: 'app', addRootSlash: false}))
     .pipe(gulp.dest(config.build_dir));
 });
 
@@ -191,7 +205,10 @@ gulp.task('karma-run', function () {
  */
 gulp.task('default', function (cb) {
     runSequence('build-clean', 'jshint',
-      ['build-copy', 'build-copy-app-assets', 'build-copy-vendor-fonts', 'build-app-templates', 'build-common-templates'],
+      [
+        'build-copy', 'build-copy-app-assets', 'build-copy-vendor-fonts',
+        'build-app-templates', 'build-common-templates', 'build-less'
+      ],
       'build-inject-index', 'karma-setup', 'karma-run'
     );
   }
