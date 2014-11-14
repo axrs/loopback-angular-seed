@@ -58,9 +58,6 @@
     "karma": "^0.12.24",
     "karma-chrome-launcher": "^0.1.5",
     "karma-jasmine": "^0.2.3",
-    "karma-jasmine-html-reporter": "^0.1.5",
-    "merge-stream": "^0.1.6",
-    "streamqueue": "^0.1.1",
-    "tiny-lr": "^0.1.4"
+    "karma-jasmine-html-reporter": "^0.1.5"
   }
 }
