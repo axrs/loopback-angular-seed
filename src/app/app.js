@@ -16,7 +16,6 @@ angular.module('ngLAS', [
 
     $scope.$on('$stateChangeSuccess',
       function (event, toState, toParams, fromState, fromParams) {
-        console.log('changed');
         if (angular.isDefined(toState.data.pageTitle)) {
           $scope.pageTitle = toState.data.pageTitle + ' - ngLAS';
         }
