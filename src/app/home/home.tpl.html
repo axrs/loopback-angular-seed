@@ -1,5 +1,35 @@
-<main class="ui three column grid">
-  <aside class="column">1</aside>
-  <section class="column">2</section>
-  <section class="column">3</section>
-</main>
+<div class="ui grid">
+  <div class="ui eight wide column">
+    <h2 class="ui dividing header">Frontend</h2>
+
+    <div class="ui piled segment" ng-repeat="f in frameworks.frontend">
+      <img class="ui small right floated image" src="{{f.logo}}">
+
+      <h2>{{f.name}}</h2>
+
+      <p>{{f.desc}}</p>
+
+      <a class="ui basic animated button" href="{{f.uri}}">
+        <div class="visible content">Find Out More</div>
+        <div class="hidden content"><i class="right arrow icon"></i></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="ui eight wide column">
+    <h2 class="ui dividing header">Backend</h2>
+
+    <div class="ui piled segment" ng-repeat="f in frameworks.backend">
+      <img class="ui small right floated image" src="{{f.logo}}">
+
+      <h2>{{f.name}}</h2>
+
+      <p>{{f.desc}}</p>
+
+      <a class="ui basic animated button" href="{{f.uri}}">
+        <div class="visible content">Find Out More</div>
+        <div class="hidden content"><i class="right arrow icon"></i></div>
+      </a>
+    </div>
+  </div>
+</div>
