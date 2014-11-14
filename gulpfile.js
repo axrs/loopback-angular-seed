@@ -13,8 +13,9 @@ var gulp = require('gulp'),
   order = require('gulp-order'),
   debug = require('gulp-debug'),
   util = require('gulp-util'),
-  less = require('gulp-less');
-
+  less = require('gulp-less'),
+  watch = require('gulp-watch'),
+  livereload = require('gulp-livereload');
 
 /**
  * Gulp build configuration
@@ -89,14 +90,17 @@ gulp.task('build-clean', function () {
 /**
  * Copies vendor files and app assets/scripts to the build directory
  */
-gulp.task('build-copy', function () {
+gulp.task('build-copy-vendor', function () {
   var files = [].concat(
     config.vendor.scripts,
     config.vendor.styles,
-    config.vendor.assets,
-    config.app.scripts
+    config.vendor.assets
   );
   return gulp.copy(files, config.build_dir);
+});
+
+gulp.task('build-copy-app-scripts', function () {
+  return gulp.copy(config.app.scripts, config.build_dir);
 });
 
 /**
@@ -110,6 +114,7 @@ gulp.task('build-copy-app-assets', function () {
  * Copies any vendor font dependencies directly into the `config.build_dir`/fonts directory
  */
 gulp.task('build-copy-vendor-fonts', function () {
+  //Flatten for distribution, preserve for build
   return gulp.copy(config.vendor.fonts, config.build_dir /* + "/" + config.font_sub_dir*/);
 });
 
@@ -136,6 +141,7 @@ gulp.task('build-common-templates', function () {
  */
 gulp.task('build-less', function () {
   gulp.src([config.app.less_file].concat(config.app.styles))
+    .pipe(concat('app'))
     .pipe(less())
     .pipe(gulp.dest(config.build_dir));
 });
@@ -196,22 +202,37 @@ gulp.task('karma-setup', function () {
 gulp.task('karma-run', function () {
   return karma.start({
     configFile: __dirname + "/" + config.build_dir + "/gulp.karma.config.js",
-    singleRun: true
+    action: 'watch'
   });
 });
 
 /**
  * The default task is to build the client and run the unit tests
  */
-gulp.task('default', function (cb) {
-    runSequence('build-clean', 'jshint',
+gulp.task('build', function (cb) {
+    return runSequence('build-clean', 'jshint',
       [
-        'build-copy', 'build-copy-app-assets', 'build-copy-vendor-fonts',
-        'build-app-templates', 'build-common-templates', 'build-less'
+        'build-copy-vendor', 'build-copy-vendor-fonts',
+        'build-copy-app-scripts', 'build-copy-app-assets', 'build-app-templates',
+        'build-common-templates', 'build-less'
       ],
-      'build-inject-index', 'karma-setup', 'karma-run'
+      'build-inject-index', 'karma-setup', 'karma-run', cb
     );
   }
 );
 
-//ToDo: compile less, concat css, watch, karma continuous, compile, ng-annotate, uglify
+gulp.task('watch', function () {
+  livereload.listen();
+  var styles = [config.app.less_file].concat(config.app.styles);
+  gulp.watch(styles, ['build-less']).on('change', livereload.changed);
+  gulp.watch(config.app.scripts, ['jshint', 'build-copy-app-scripts', 'build-inject-index']);
+  gulp.watch('src/assets/**/*.*', ['build-copy-app-assets']);
+  gulp.watch(config.app.common_templates, ['build-common-templates']);
+  gulp.watch(config.app.templates, ['build-app-templates']);
+  gulp.watch(config.app.index_file, ['build-inject-index']);
+  gulp.watch(config.build_dir + "/**/*.*").on('change', livereload.changed);
+});
+
+gulp.task('default', ['build'], function () {
+  gulp.start('watch');
+});

@@ -21,8 +21,11 @@
 </head>
 <body>
 <div class="ui fixed transparent inverted main menu">
-  <a class="active item">
+  <a class="item" ui-sref="home" ui-sref-active="active">
     <i class="home icon"></i> Home
+  </a>
+  <a class="item" ui-sref="about" ui-sref-active="active">
+    <i class="question icon"></i>
   </a>
 </div>
 <div class="root container sixteen wide column" ui-view="main"></div>

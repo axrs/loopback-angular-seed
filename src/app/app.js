@@ -2,6 +2,7 @@ angular.module('ngLAS', [
   'templates-app',
   'templates-common',
   'ngLAS.home',
+  'ngLAS.about',
   'ui.router'
 ])
 

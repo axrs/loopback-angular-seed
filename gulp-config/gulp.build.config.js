@@ -30,7 +30,7 @@ module.exports = {
     /**
      * App component styles and overrides
      */
-    styles: ['src/**/*.less'],
+    styles: ['src/app/**/*.less'],
 
     /**
      * App specific reusable HTML partial views and templates and associated `build/` output file
